@@ -68,7 +68,7 @@ def fw_ver(): #just guessing
 
 mode = {'off':0x10,
 	'static':0x11,
-	'breahting':0x12,
+	'breathing':0x12,
 	'strobe':0x13,
 	'cycling':0x14,
 	'random':0x15,
