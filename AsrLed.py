@@ -26,6 +26,9 @@
 # Register 0x30 controls the device mode. Following RGB code (if exist) and Speed code (if exist). Speed is higher with lower values.
 # I don't understand what the Reg 0x31 for, and 0x32 used by original firmware but things look working pretty good without it.
 #
+# Also Music Mode does NOT look working proper on my motherboard. Depending my reverse engineering data, nuvoton N76E885AT20 chip that
+# self detect sound volume via Analog Input from a line from Realtek ALC1220 sound chip. But Linux drivers don't enable that line by default.
+# You better to play with hda-jack-retask tool ( thanks Adam Honse for tip) to make correct pin to enable.
 
 from smbus import SMBus
 from time import sleep
