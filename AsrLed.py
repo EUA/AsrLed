@@ -14,7 +14,7 @@
 #    You can share it under GNU General Public License v3
 #    If not know what it is, see <https://www.gnu.org/licenses/>.
 #
-
+#
 # Notices: This driver just for AsRock Fatal1ty AB350 Gaming-ITX/ac board.
 # But probably compatible with all AsRock Motherboards that runs AsrRgbLed utility.
 #
@@ -23,12 +23,19 @@
 #
 # Warning: Motherboards that run AsrPolychromeRGB runs nu51_2.10 firmware does NOT tested with this driver. Probably not compatible.
 #
-# Register 0x30 controls the device mode. Following RGB code (if exist) and Speed code (if exist). Speed is higher with lower values.
-# I don't understand what the Reg 0x31 for, and 0x32 used by original firmware but things look working pretty good without it.
+# Explaination: Register 0x30 controls the device mode. Following RGB code (if exist) and Speed code (if exist).
+# Speed is higher with lower values. I don't understand what the Reg 0x31 & 0x32 used for (used by original firmware).
 #
-# Also Music Mode does NOT look working proper on my motherboard. Depending my reverse engineering data, nuvoton N76E885AT20 chip that
-# self detect sound volume via Analog Input from a line from Realtek ALC1220 sound chip. But Linux drivers don't enable that line by default.
-# You better to play with hda-jack-retask tool ( thanks Adam Honse for tip) to make correct pin to enable.
+# Music Mode: does NOT work default on my motherboard; AsRock Fatal1ty AB350 Gaming-ITX/ac
+# LED controlling chip (an MCU, nuvoton N76E885AT20) detect sound volume via an Analog Pin,
+# connected to Realtek ALC1220 sound chip, Pin 0x17. But Linux drivers don't enable that line by default.
+# You need to install hda-jack-retask tool ( thanks Adam Honse for tool tip ):
+# 1) Show unconnected pins
+# 2) Override Pin ID 0x17
+# 3) Select Line out (Front)
+# 4) Install boot override
+# After reboot, music mode will work proper, when Analog-speaker out has a sound.
+# If you don't use it, you can use simultaneous output feature of Pulse audio...
 
 from smbus import SMBus
 from time import sleep
@@ -121,6 +128,7 @@ def set_random_s(s):
   set_mode('random')
   bus.write_block_data( addr, 0x15, [s] )
 
+#Look at comments section at top
 def set_music_rgb(r,g,b):
   set_mode('music')
   bus.write_block_data( addr, 0x17, [r,g,b]  )
