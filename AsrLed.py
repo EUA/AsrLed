@@ -14,28 +14,11 @@
 #    You can share it under GNU General Public License v3
 #    If not know what it is, see <https://www.gnu.org/licenses/>.
 #
+# If you change RGB values too much, for example using set_static_rgb register in a programatic loop,
+# to animate your custom choice, you *PROBABLY* kill your RGB Controller MCU EEPROM,
+# that might lead some errors on RGB LED Lightning...
 #
-# Notices: This driver just for AsRock Fatal1ty AB350 Gaming-ITX/ac board.
-# But probably compatible with all AsRock Motherboards that runs AsrRgbLed utility.
-#
-# If you change RGB values too much, for example using set_static_rgb register in a programatic loop to animate your custom choice,
-# you *PROBABLY* kill your RGB Controller MCU EEPROM, that might lead some errors on RGB LED Lightning...
-#
-# Warning: Motherboards that run AsrPolychromeRGB runs nu51_2.10 firmware does NOT tested with this driver. Probably not compatible.
-#
-# Explaination: Register 0x30 controls the device mode. Following RGB code (if exist) and Speed code (if exist).
-# Speed is higher with lower values. I don't understand what the Reg 0x31 & 0x32 used for (used by original firmware).
-#
-# Music Mode: does NOT work default on my motherboard; AsRock Fatal1ty AB350 Gaming-ITX/ac
-# LED controlling chip (an MCU, nuvoton N76E885AT20) detect sound volume via an Analog Pin,
-# connected to Realtek ALC1220 sound chip, Pin 0x17. But Linux drivers don't enable that line by default.
-# You need to install hda-jack-retask tool ( thanks Adam Honse for tool tip ):
-# 1) Show unconnected pins
-# 2) Override Pin ID 0x17
-# 3) Select Line out (Front)
-# 4) Install boot override
-# After reboot, music mode will work proper, when Analog-speaker out has a sound.
-# If you don't use it, you can use simultaneous output feature of Pulse audio...
+# Please read the readme file for warnings, operation and Music Mode hints.Update pulse 
 
 from smbus import SMBus
 from time import sleep
