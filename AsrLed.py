@@ -1,4 +1,8 @@
-#!/usr/bin/python#!/usr/bin/python
+dr:0x6a Reg:0x00 query returns 3.0.
+Bus #5 open. Searching...
+Bus #6 open. Searching...
+Bus #7 open. Searching...
+device not found.#!/usr/bin/python#!/usr/bin/python
 
 # AsrLed nu51_1.10 Driver for Linux
 # 2019 (c) Erdem Umut Altunyurt
@@ -50,9 +54,9 @@ def detect_device():
       if bus.read_byte_data( addr,0x00)==2:
          M=bus.read_byte( addr )
          m=bus.read_byte( addr )
-         if (M==1 or M==2) and m==10:
+         if (M==1 or M==2 or M==3) and m==10:
            print("Bus:{} Addr:{} Reg:0x00 query returns {}.{}.\nPossible AsRock AURA device with FW nu50_{}.{} detected.".format(busNum, hex(addr), M, m, M, m))
-           if M==2:
+           if M==2 or M==3:
              print("This FW is NOT supported, yet. Try with your own risk!")
            return bus
          else:
